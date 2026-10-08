@@ -1,0 +1,5 @@
+Generated with the built-in imagegen tool on 2026-10-08.
+
+Use case: logo-brand
+Asset type: square CurseForge project logo for Gabba Unit Frames, a World of Warcraft Classic addon enhancing party unit frames.
+Primary request: an original polished fantasy UI emblem, a compact stack of three unit frames with circular portrait medallions on the left, vivid green health bars and thin blue mana bars, sculpted dark metal edging, on a deep charcoal background. Bold simple shapes, subtle handcrafted fantasy texture, readable at tiny thumbnail size. Centered composition, ample edge padding. Text (verbatim): "GUF" in large legible metal lettering below the unit-frame emblem. No other text. No official Warcraft or CurseForge logos, no watermark. Square opaque PNG.

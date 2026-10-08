@@ -1,0 +1,12 @@
+## Interface: 11509
+## Title: Gabba Unit Frames
+## Notes: Compact party, pet, raid-layout and target health enhancements
+## Author: Nils
+## Version: 1.0.0-dev.1
+## SavedVariablesPerCharacter: GabbaUnitFramesDB
+
+Core.lua
+PartyFrames.lua
+RaidLayout.lua
+TargetLabels.lua
+Options.lua
