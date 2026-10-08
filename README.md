@@ -34,10 +34,6 @@ Keep the familiar frames and choose the information you want to see.
 A standalone addon with its own settings window and minimap button.
 **No additional addons or external libraries required.**
 
-> **Current status: version 1.0.0 is prepared for release.**
-> The first release upload is pending. Source code, screenshots, and automated
-> checks are available in this repository.
-
 ## ✨ Features
 
 | Area | What you can customize |
