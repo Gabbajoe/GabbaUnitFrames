@@ -1,0 +1,11 @@
+Upload-ready screenshot previews: 01-options.png, 02-player-own-pet.png, 03-party-member-pet.png, 04-target-health.png. These are original screenshot copies or pixel-exact crops without resizing, retouching or AI generation. Sources and crop rectangles: screenshots.json. The own-pet preview was updated from player-own-pet-adjusted.png after the resource-label positioning adjustment; it is an unmodified copy of the new attachment.
+
+The following historical note applies ONLY to files named *-ai-preview.png:
+
+These are AI-processed previews, not pixel-exact gameplay crops. Do not describe them as unmodified screenshots. For CurseForge, prefer crops from the original local screenshot files.
+
+Built-in imagegen prompts:
+
+Edit the most recent attached gameplay screenshot by cropping only. Produce one tight rectangular crop containing the complete player frame Gabbahexhex AND the complete own pet frame Naltip underneath, retaining a small margin of the original background. Remove excess background edges. Preserve all existing screenshot contents exactly: names, portrait artwork, fonts, health/mana numbers, bars, levels and pixels. Do not redraw, beautify, invent, add captions, alter font sizes, or change values. This is a documentary screenshot for an addon project, not a mockup. No upscaling or enhancement. The attached two images are identical; use only the last image.
+
+Crop only the latest attached screenshot to the rectangular Gabba Unit Frames options window. Approximate crop on the 1885x1155 input: left 552, top 49, right 1498, bottom 1150. Preserve the complete outer window border, title bar, close button, every label, checkbox, slider and footer. Exclude all gameplay, other UI, chat and character names outside this window. This must remain a faithful screenshot: no invented controls, no text changes, no font changes, no styling, no enhancement, no new elements. Output only the cropped window.

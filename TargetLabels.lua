@@ -31,13 +31,13 @@ local function StatusFontSize()
     return tonumber(ns.db and ns.db.playerTargetFontSize) or 11
 end
 
-local function ResizeFontString(region)
+local function ResizeFontString(region, size)
     if not region or not region.GetFont or not region.SetFont then return end
     local font, _, flags = region:GetFont()
-    if font then region:SetFont(font, StatusFontSize(), flags or "OUTLINE") end
+    if font then region:SetFont(font, size or StatusFontSize(), flags or "OUTLINE") end
 end
 
-local function ResizeStatusBarText(frame, visited)
+local function ResizeStatusBarText(frame, visited, size)
     if not frame or visited[frame] then return end
     visited[frame] = true
 
@@ -48,14 +48,14 @@ local function ResizeStatusBarText(frame, visited)
                 and region.GetFont
                 and region.SetFont
             then
-                ResizeFontString(region)
+                ResizeFontString(region, size)
             end
         end
     end
 
     if frame.GetChildren then
         for _, child in ipairs({ frame:GetChildren() }) do
-            ResizeStatusBarText(child, visited)
+            ResizeStatusBarText(child, visited, size)
         end
     end
 end
@@ -101,6 +101,42 @@ local function ResizePlayerAndTargetText()
     }) do
         ResizeFontString(region)
     end
+end
+
+local function AlignPetText(region, bar, side, size, offsetY)
+    ResizeFontString(region, size)
+    if not region or not bar or InCombatLockdown() then return end
+    -- Native pet labels can retain offsets intended for Blizzard's larger font.
+    -- Anchor the text itself to the bar so resizing cannot move it below the fill.
+    region:ClearAllPoints()
+    local inset = side == "LEFT" and 2 or side == "RIGHT" and -2 or 0
+    region:SetPoint(side, bar, side, inset, offsetY)
+    region:SetJustifyH(side)
+    region:SetJustifyV("MIDDLE")
+end
+
+local function ResizePlayerPetText()
+    local size = math.max(8, math.min(16, tonumber(ns.db.playerPetFontSize) or 9))
+    ResizeStatusBarText(PetFrame, {}, size)
+    -- Classic status labels may belong to the texture frame rather than the bar.
+    local health = PetFrameHealthBar or (PetFrame and (PetFrame.healthbar or PetFrame.HealthBar))
+    local power = PetFrameManaBar or (PetFrame and (PetFrame.manabar or PetFrame.ManaBar))
+    local function AlignBar(bar, center, left, right, textureText, offsetY)
+        for _, region in pairs({bar and bar.TextString, center, textureText}) do
+            AlignPetText(region, bar, "CENTER", size, offsetY)
+        end
+        for _, region in pairs({bar and bar.LeftText, left}) do
+            AlignPetText(region, bar, "LEFT", size, offsetY)
+        end
+        for _, region in pairs({bar and bar.RightText, right}) do
+            AlignPetText(region, bar, "RIGHT", size, offsetY)
+        end
+    end
+    -- Separate the outlined glyphs slightly on Classic's tightly stacked bars.
+    AlignBar(health, PetFrameHealthBarText, PetFrameHealthBarTextLeft, PetFrameHealthBarTextRight,
+        PetFrameTextureFrame and PetFrameTextureFrame.HealthBarText, 1)
+    AlignBar(power, PetFrameManaBarText, PetFrameManaBarTextLeft, PetFrameManaBarTextRight,
+        PetFrameTextureFrame and PetFrameTextureFrame.ManaBarText, -3)
 end
 
 local function SetNativeTargetRightTextShown(shown)
@@ -209,6 +245,7 @@ end
 local function Update()
     if not ns.db then return end
     ResizePlayerAndTargetText()
+    ResizePlayerPetText()
     UpdateTargetOfTarget()
     -- Blizzard already displays exact health for friendly targets. Classic Era
     -- leaves only the right-hand value empty for hostile targets, while still
@@ -238,8 +275,12 @@ ns.RefreshTargets = Update
 
 local events = CreateFrame("Frame")
 events:RegisterEvent("PLAYER_ENTERING_WORLD")
+events:RegisterEvent("PLAYER_REGEN_ENABLED")
 events:RegisterEvent("PLAYER_TARGET_CHANGED")
-events:RegisterUnitEvent("UNIT_HEALTH", "target", "targettarget")
-events:RegisterUnitEvent("UNIT_MAXHEALTH", "target", "targettarget")
+events:RegisterUnitEvent("UNIT_HEALTH", "target", "targettarget", "pet")
+events:RegisterUnitEvent("UNIT_MAXHEALTH", "target", "targettarget", "pet")
+events:RegisterUnitEvent("UNIT_PET", "player")
+events:RegisterUnitEvent("UNIT_POWER_UPDATE", "pet")
+events:RegisterUnitEvent("UNIT_MAXPOWER", "pet")
 events:RegisterUnitEvent("UNIT_TARGET", "target")
 events:SetScript("OnEvent", Update)

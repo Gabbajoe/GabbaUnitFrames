@@ -1,0 +1,15 @@
+01-options.png
+Title: Settings window
+Caption: Dedicated options for party frames, pets, raid layout and text sizes.
+
+02-player-own-pet.png
+Title: Player and pet
+Caption: Player and own-pet frames with health and resource values.
+
+03-party-member-pet.png
+Title: Party member and pet
+Caption: Party-member and pet frames with health and power percentages and values.
+
+04-target-health.png
+Title: Enemy health and target of target
+Caption: Exact enemy health and target-of-target health percentage.

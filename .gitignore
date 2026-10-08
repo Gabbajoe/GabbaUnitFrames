@@ -5,3 +5,6 @@ __pycache__/
 .env
 .env.*
 !.env.example
+# Original captures and AI drafts stay local; publish the selected gallery only.
+curseforge/screenshots/
+curseforge/previews/*-ai-preview.png

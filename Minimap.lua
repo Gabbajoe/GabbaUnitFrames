@@ -1,6 +1,6 @@
 local _, ns = ...
 
-local ICON = "Interface\\AddOns\\GabbaUnitFrames\\Assets\\Icon.tga"
+local ICON = "Interface\\AddOns\\GabbaUnitFrames\\Assets\\Minimap.tga"
 local button
 
 local function UpdatePosition()

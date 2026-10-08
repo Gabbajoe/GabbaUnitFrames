@@ -35,8 +35,8 @@ Entstanden aus dem Unitframe-Modul des **Gabba-Addons**, jetzt als eigenständig
 Addon mit eigenem Einstellungsfenster und Minimap-Button. **Gabba wird nicht benötigt.**
 
 > **Aktueller Stand: Version 1.0.0 zum lokalen Testen vorbereitet.**
-> GitHub-Veröffentlichung und erster CurseForge-Upload stehen noch aus.
-> Die GitHub-Links und Live-Badges werden nach der Veröffentlichung verfügbar.
+> Der erste Release-Upload steht noch aus. Quellcode, Vorschauen und
+> automatische Prüfungen sind im GitHub-Repository verfügbar.
 
 ## ✨ Was Gabba Unit Frames kann
 
@@ -45,13 +45,32 @@ Addon mit eigenem Einstellungsfenster und Minimap-Button. **Gabba wird nicht ben
 | 💚 **Gruppe** | Lebens- und Ressourcenwerte als Prozentzahl und exakter Wert auf den klassischen Partyframes |
 | 🐾 **Party-Pets** | Größe von 100–200 %, Position unterhalb, links oder rechts; Namen, Leben und Ressourcen einzeln einstellbar |
 | 🎯 **Spieler & Ziel** | Statusschrift von 8–16 px, Lebenswerte feindlicher Ziele und Lebensprozente beim Ziel-des-Ziels |
+| 🐺 **Eigenes Pet** | Lebens- und Ressourcenschrift separat von 8–16 px einstellen, Standard 9 px |
 | 🛡️ **Raid** | Separate Gruppen horizontal oder vertikal anordnen und 1–8 Gruppen pro Zeile einstellen |
 | 🧭 **Minimap** | Eigener GUF-Button: Linksklick öffnet die Optionen, Ziehen verschiebt das Symbol |
 | 💾 **Charaktere** | Jeder Charakter behält seine eigenen Einstellungen |
 
 Änderungen an geschützten Party- und Raid-Layouts werden nach dem Kampf angewendet.
 Die Raid-Anordnung unterstützt auch die sichtbare Raid-Vorschau in Blizzards Edit Mode.
-Das GUF-Logo erscheint außerdem direkt in der WoW-Addonliste.
+Das kompakte Spielsymbol erscheint auch in der WoW-Addonliste; das ausführliche
+GUF-Logo bleibt das Projektlogo auf CurseForge.
+
+## 📸 Ein Blick ins Spiel
+
+| Spieler & eigenes Pet | Gruppe & Pet |
+| --- | --- |
+| ![Spieler und eigenes Pet](curseforge/previews/02-player-own-pet.png) | ![Gruppenmitglied und Pet](curseforge/previews/03-party-member-pet.png) |
+
+**Feindliches Ziel mit exaktem Leben und Ziel-des-Ziels:**
+
+![Zielgesundheit und Ziel-des-Ziels](curseforge/previews/04-target-health.png)
+
+<details>
+<summary>🎛️ Einstellungsfenster ansehen</summary>
+
+![Gabba Unit Frames Optionen](curseforge/previews/01-options.png)
+
+</details>
 
 ## 🎛️ So bedienst du das Addon
 

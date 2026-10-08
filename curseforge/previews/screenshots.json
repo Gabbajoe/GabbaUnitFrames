@@ -1,0 +1,40 @@
+[
+  {
+    "file": "01-options.png",
+    "source": "options-own-pet-labels.png",
+    "crop": null,
+    "title": "Settings window",
+    "caption": "Dedicated options for party frames, pets, raid layout and text sizes."
+  },
+  {
+    "file": "02-player-own-pet.png",
+    "source": "player-own-pet-adjusted.png",
+    "crop": null,
+    "title": "Player and pet",
+    "caption": "Player and own-pet frames with health and resource values."
+  },
+  {
+    "file": "03-party-member-pet.png",
+    "source": "options-party-pet.png",
+    "crop": [
+      26,
+      198,
+      239,
+      334
+    ],
+    "title": "Party member and pet",
+    "caption": "Party-member and pet frames with health and power percentages and values."
+  },
+  {
+    "file": "04-target-health.png",
+    "source": "hostile-target-health.png",
+    "crop": [
+      883,
+      533,
+      1267,
+      718
+    ],
+    "title": "Enemy health and target of target",
+    "caption": "Exact enemy health and target-of-target health percentage."
+  }
+]

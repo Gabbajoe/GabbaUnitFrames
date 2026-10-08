@@ -41,6 +41,10 @@ end
 
 local function Build()
     frame = CreateFrame("Frame", "GabbaUnitFramesOptions", UIParent, "BasicFrameTemplateWithInset")
+    -- Match Gabba's normal windows: clicking changes their front-to-back order.
+    -- DIALOG would pin these options above every MEDIUM window.
+    frame:SetFrameStrata("MEDIUM")
+    frame:SetToplevel(true)
     frame:SetSize(560, 650); frame:SetPoint("CENTER"); frame:SetClampedToScreen(true)
     UISpecialFrames[#UISpecialFrames + 1] = "GabbaUnitFramesOptions"
     frame:SetMovable(true); frame:EnableMouse(true); frame:RegisterForDrag("LeftButton")
@@ -85,6 +89,8 @@ local function Build()
     controls.targetOfTargetPercent = Checkbox(frame, "Show target-of-target health %", 24, y, "targetOfTargetPercent"); y = y - 48
     controls.playerTargetFontSize = Slider(frame, "GabbaUnitFramesLabelSize", "Label size", 34, y, 8, 16, 1,
         "playerTargetFontSize", function(v) return v .. " px" end)
+    controls.playerPetFontSize = Slider(frame, "GabbaUnitFramesPlayerPetLabelSize", "Own pet labels", 300, y, 8, 16, 1,
+        "playerPetFontSize", function(v) return v .. " px" end)
 
     local footer = frame:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
     footer:SetPoint("BOTTOMLEFT", 24, 18); footer:SetText("Open with /guf · Changes made during combat apply afterward.")
@@ -100,6 +106,7 @@ function ns.RefreshOptions()
     controls.petScale:SetValue((ns.db.petScale or 1.5) * 100)
     controls.raidGroupsPerLine:SetValue(ns.db.raidGroupsPerLine or 1)
     controls.playerTargetFontSize:SetValue(ns.db.playerTargetFontSize or 11)
+    controls.playerPetFontSize:SetValue(ns.db.playerPetFontSize or 9)
     controls.petPosition:Refresh(); controls.raidOrientation:Refresh()
     controls.updating = false
 end
@@ -107,5 +114,5 @@ end
 function ns.ToggleOptions()
     if not ns.db then return end
     if not frame then Build() end
-    if frame:IsShown() then frame:Hide() else ns.RefreshOptions(); frame:Show() end
+    if frame:IsShown() then frame:Hide() else ns.RefreshOptions(); frame:Show(); frame:Raise() end
 end

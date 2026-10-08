@@ -12,6 +12,7 @@ ns.defaults = {
     raidOrientation = "default",
     raidGroupsPerLine = 1,
     playerTargetFontSize = 11,
+    playerPetFontSize = 9,
     hostileExactHealth = true,
     targetOfTargetPercent = true,
     minimapAngle = 220,

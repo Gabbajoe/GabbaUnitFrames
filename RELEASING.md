@@ -48,8 +48,8 @@ Then run **Actions → Check CurseForge access → Run workflow** to verify toke
 access and the client-version lookup without uploading a file.
 
 The CI and Release workflows share `.github/actions/check/action.yml`.
-Dependabot checks pinned GitHub Actions for updates monthly. The public GitHub
-repository has not yet been created; these workflows are prepared locally.
+Dependabot checks pinned GitHub Actions for updates monthly. Repository: https://github.com/Gabbajoe/GabbaUnitFrames.
+The first release tag should be pushed after the upload token is configured.
 
 Never commit tokens or paste them into documentation. The upload uses the
 author API, resolves the exact Classic Era game version from the TOC, and fails

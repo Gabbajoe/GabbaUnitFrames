@@ -2,6 +2,13 @@
 
 ## 1.0.0
 
+- Match Gabba's MEDIUM/top-level window behavior so clicking other windows can bring them in front; raise options when opened.
+- Use a dedicated, simplified game icon for the minimap and addon list.
+
+- Add a small vertical gap between own-pet health and resource text.
+
+- Center own-pet health and power labels on their bars after changing font size; defer anchoring during combat.
+- Added independent own-pet health and power label sizing (8–16 px, default 9 px).
 - First stable standalone release of Gabba's unit-frame module.
 - Based on the original module used in-game by the author.
 - Restored Gabba's raid reflow, Edit Mode preview, pet layering, and target-text fixes.

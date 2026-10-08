@@ -7,6 +7,7 @@ Keep the familiar Blizzard look and give your group frames more useful informati
 - **Party health and power at a glance** — see percentages and exact values directly on your party frames.
 - **Party pets your way** — adjust their size and position, and choose which names, health values, and power values to display.
 - **Readable player and target text** — adjust the status-text size to suit your UI.
+- **Compact text for your own pet** — adjust your pet's health and power text size independently.
 - **More target information** — see hostile-target health values and your target's target health percentage.
 - **Flexible raid groups** — arrange Blizzard's Separate Groups layout horizontally or vertically and choose how many groups fit on each line.
 - **Your own settings for every character** — customize the display to match each character's needs.
