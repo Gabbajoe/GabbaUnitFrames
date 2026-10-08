@@ -1,150 +1,134 @@
 <p align="center">
-  <img src="curseforge/logo.png" alt="Gabba Unit Frames – Gruppenframes mit grünen Lebens- und blauen Ressourcenbalken" width="200">
+  <img src="curseforge/logo.png" alt="Gabba Unit Frames – party frames with green health and blue resource bars" width="200">
 </p>
 
 <h1 align="center">Gabba Unit Frames</h1>
 
 <p align="center">
-  <strong>Deine Gruppe im Blick. Dein vertrautes Blizzard-UI.</strong><br>
-  Klare Werte, übersichtliche Pets und Raid-Gruppen, die zu deinem Bildschirm passen. 💚
+  <strong>Your party at a glance. Your familiar Blizzard UI.</strong><br>
+  Clear values, readable pet frames, and raid groups arranged to fit your screen. 💚
 </p>
 
 <p align="center">
-  <a href="https://github.com/Gabbajoe/GabbaUnitFrames/actions/workflows/ci.yml"><img src="https://github.com/Gabbajoe/GabbaUnitFrames/actions/workflows/ci.yml/badge.svg?branch=main" alt="Tests und Paketbau"></a>
-  <a href="https://github.com/Gabbajoe/GabbaUnitFrames/releases"><img src="https://img.shields.io/github/v/release/Gabbajoe/GabbaUnitFrames?style=flat-square&amp;color=34d399&amp;label=Release" alt="Neuester veröffentlichter Release"></a>
+  <a href="https://github.com/Gabbajoe/GabbaUnitFrames/actions/workflows/ci.yml"><img src="https://github.com/Gabbajoe/GabbaUnitFrames/actions/workflows/ci.yml/badge.svg?branch=main" alt="Tests and package build"></a>
+  <a href="https://github.com/Gabbajoe/GabbaUnitFrames/releases"><img src="https://img.shields.io/github/v/release/Gabbajoe/GabbaUnitFrames?style=flat-square&amp;color=34d399&amp;label=Release" alt="Latest published release"></a>
   <img src="https://img.shields.io/badge/WoW-Classic_Era-34d399?style=flat-square" alt="WoW Classic Era">
   <img src="https://img.shields.io/badge/Interface-11509-38bdf8?style=flat-square" alt="Interface 11509">
-  <img src="https://img.shields.io/badge/Abh%C3%A4ngigkeiten-keine-fbbf24?style=flat-square" alt="Keine erforderlichen Zusatzaddons">
-  <img src="https://img.shields.io/badge/CurseForge--Projekt-1734116-f16436?style=flat-square" alt="CurseForge-Projekt 1734116">
+  <img src="https://img.shields.io/badge/Dependencies-none-fbbf24?style=flat-square" alt="No required additional addons">
+  <img src="https://img.shields.io/badge/CurseForge--Project-1734116-f16436?style=flat-square" alt="CurseForge project 1734116">
 </p>
 
 <p align="center">
   <a href="https://github.com/Gabbajoe/GabbaUnitFrames/releases"><strong>📦 Downloads</strong></a> ·
-  <a href="https://github.com/Gabbajoe/GabbaUnitFrames/issues"><strong>💬 Ideen &amp; Fehler</strong></a> ·
-  <a href="CHANGELOG.md"><strong>📝 Änderungen</strong></a> ·
-  <a href="RELEASING.md"><strong>🛠️ Entwicklung</strong></a>
+  <a href="https://github.com/Gabbajoe/GabbaUnitFrames/issues"><strong>💬 Ideas &amp; issues</strong></a> ·
+  <a href="CHANGELOG.md"><strong>📝 Changelog</strong></a> ·
+  <a href="RELEASING.md"><strong>🛠️ Development</strong></a>
 </p>
 
 ---
 
-**Gabba Unit Frames** ergänzt Blizzards Gruppen-, Pet-, Spieler- und Zielframes
-in **WoW Classic Era** um gut lesbare Informationen und einstellbare Layouts.
-Du behältst die vertrauten Frames und entscheidest selbst, welche Werte du sehen möchtest.
+**Gabba Unit Frames** adds readable health and resource values and adjustable
+layouts to Blizzard's party, pet, player, and target frames in **WoW Classic Era**.
+Keep the familiar frames and choose the information you want to see.
 
-Entstanden aus dem Unitframe-Modul des **Gabba-Addons**, jetzt als eigenständiges
-Addon mit eigenem Einstellungsfenster und Minimap-Button. **Gabba wird nicht benötigt.**
+A standalone addon with its own settings window and minimap button.
+**No additional addons or external libraries required.**
 
-> **Aktueller Stand: Version 1.0.0 zum lokalen Testen vorbereitet.**
-> Der erste Release-Upload steht noch aus. Quellcode, Vorschauen und
-> automatische Prüfungen sind im GitHub-Repository verfügbar.
+> **Current status: version 1.0.0 is prepared for release.**
+> The first release upload is pending. Source code, screenshots, and automated
+> checks are available in this repository.
 
-## ✨ Was Gabba Unit Frames kann
+## ✨ Features
 
-| Bereich | Deine Möglichkeiten |
+| Area | What you can customize |
 | --- | --- |
-| 💚 **Gruppe** | Lebens- und Ressourcenwerte als Prozentzahl und exakter Wert auf den klassischen Partyframes |
-| 🐾 **Party-Pets** | Größe von 100–200 %, Position unterhalb, links oder rechts; Namen, Leben und Ressourcen einzeln einstellbar |
-| 🎯 **Spieler & Ziel** | Statusschrift von 8–16 px, Lebenswerte feindlicher Ziele und Lebensprozente beim Ziel-des-Ziels |
-| 🐺 **Eigenes Pet** | Lebens- und Ressourcenschrift separat von 8–16 px einstellen, Standard 9 px |
-| 🛡️ **Raid** | Separate Gruppen horizontal oder vertikal anordnen und 1–8 Gruppen pro Zeile einstellen |
-| 🧭 **Minimap** | Eigener GUF-Button: Linksklick öffnet die Optionen, Ziehen verschiebt das Symbol |
-| 💾 **Charaktere** | Jeder Charakter behält seine eigenen Einstellungen |
+| 💚 **Party** | Health and resource percentages alongside exact values on portrait-style party frames |
+| 🐾 **Party pets** | Scale from 100–200%, position below, left, or right; toggle names, health, and resource values separately |
+| 🎯 **Player & target** | Status text from 8–16 px, exact hostile-target health, and target-of-target health percentages |
+| 🐺 **Your own pet** | Independent health and resource text size from 8–16 px, defaulting to 9 px |
+| 🛡️ **Raid** | Arrange separate groups horizontally or vertically, with 1–8 groups per line |
+| 🧭 **Minimap** | Left-click the dedicated icon to open settings; drag it to reposition |
+| 💾 **Characters** | Each character keeps its own settings |
 
-Änderungen an geschützten Party- und Raid-Layouts werden nach dem Kampf angewendet.
-Die Raid-Anordnung unterstützt auch die sichtbare Raid-Vorschau in Blizzards Edit Mode.
-Das kompakte Spielsymbol erscheint auch in der WoW-Addonliste; das ausführliche
-GUF-Logo bleibt das Projektlogo auf CurseForge.
+Changes to protected party and raid layouts are applied after combat ends.
+Raid layout options also work with the visible raid preview in Blizzard's Edit Mode.
+The compact game icon appears in WoW's addon list as well.
 
-## 📸 Ein Blick ins Spiel
+## 📸 Screenshots
 
-| Spieler & eigenes Pet | Gruppe & Pet |
+| Player & own pet | Party member & pet |
 | --- | --- |
-| ![Spieler und eigenes Pet](curseforge/previews/02-player-own-pet.png) | ![Gruppenmitglied und Pet](curseforge/previews/03-party-member-pet.png) |
+| ![Player and own pet](curseforge/previews/02-player-own-pet.png) | ![Party member and pet](curseforge/previews/03-party-member-pet.png) |
 
-**Feindliches Ziel mit exaktem Leben und Ziel-des-Ziels:**
+**Exact enemy health and target-of-target percentage:**
 
-![Zielgesundheit und Ziel-des-Ziels](curseforge/previews/04-target-health.png)
+![Enemy health and target of target](curseforge/previews/04-target-health.png)
 
 <details>
-<summary>🎛️ Einstellungsfenster ansehen</summary>
+<summary>🎛️ View the settings window</summary>
 
-![Gabba Unit Frames Optionen](curseforge/previews/01-options.png)
+![Gabba Unit Frames settings](curseforge/previews/01-options.png)
 
 </details>
 
-## 🎛️ So bedienst du das Addon
+## 🎛️ Controls
 
-| Aktion | Ergebnis |
+| Action | Result |
 | --- | --- |
-| **Linksklick aufs Minimap-Symbol** | Einstellungen öffnen oder schließen |
-| **Symbol ziehen** | Position an der Minimap ändern und speichern |
-| **`/guf`** | Einstellungen öffnen oder schließen |
-| **`/guf reset`** | Einstellungen dieses Charakters zurücksetzen |
-| **Escape** | Einstellungsfenster schließen |
+| **Left-click the minimap icon** | Open or close settings |
+| **Drag the icon** | Move it around the minimap and save its position |
+| **`/guf`** | Open or close settings |
+| **`/guf reset`** | Reset this character's settings |
+| **Escape** | Close the settings window |
 
-Die Optionen sind nach **Party members**, **Party pets**, **Raid layout** und
-**Player and target labels** gegliedert. Die Oberfläche ist derzeit Englisch.
+Settings are organized into **Party members**, **Party pets**, **Raid layout**,
+and **Player and target labels**. The interface is in English.
 
 ## 📦 Installation
 
-1. Lade das installierbare **`GabbaUnitFrames-<Version>.zip`** aus den
-   [Releases](https://github.com/Gabbajoe/GabbaUnitFrames/releases) herunter.
-2. Entpacke den Ordner **`GabbaUnitFrames`** nach:
+1. Download the installable **`GabbaUnitFrames-<version>.zip`** from
+   [Releases](https://github.com/Gabbajoe/GabbaUnitFrames/releases).
+2. Extract the **`GabbaUnitFrames`** folder into:
 
    ```text
    World of Warcraft/_classic_era_/Interface/AddOns/
    ```
 
-3. Dort muss anschließend `GabbaUnitFrames/GabbaUnitFrames.toc` liegen.
-4. Starte WoW vollständig neu, aktiviere **Gabba Unit Frames** in der Addonliste
-   und öffne die Optionen über das Minimap-Symbol oder `/guf`.
+3. Check that `GabbaUnitFrames/GabbaUnitFrames.toc` exists inside that directory.
+4. Fully restart WoW, enable **Gabba Unit Frames** in the addon list, and open
+   settings using the minimap icon or `/guf`.
 
-Die automatisch von GitHub erzeugten **Source code**-Archive sind keine fertig
-gepackten Addon-Downloads. Für den lokalen Test liegt das Paket unter `dist/`.
+GitHub's automatically generated **Source code** archives are not ready-to-install
+addon packages. Locally built packages are placed in `dist/`.
 
-## 🤝 Zusammen mit Gabba
+## 🎮 Compatibility
 
-Die angepasste Gabba-Version erkennt ein aktiviertes **GabbaUnitFrames** automatisch
-und überspringt ihre eigenen Party-/Raid- und Zieltextmodule. Alle anderen
-Gabba-Funktionen bleiben verfügbar. Die Party-/Raid-Einstellungen in Gabba führen
-dann zum Standalone-Fenster.
+Targets **WoW Classic Era 1.15.9**, interface **11509**.
+Raid arrangement requires Blizzard's **Separate Groups** layout and the
+corresponding client layout functions. This addon enhances Blizzard's frames;
+full unit-frame replacements may use different frames.
 
-Deaktivierst du GabbaUnitFrames und lädst die UI neu, übernimmt Gabba wieder.
-**Beide Addons speichern ihre Einstellungen getrennt**; bestehende Gabba-Werte
-werden nicht automatisch importiert. Verwende zum gemeinsamen Testen auch die
-aktualisierte Gabba-Version mit dieser Erkennung.
+Retail and other Classic branches are not currently declared supported.
 
-## 🎮 Kompatibilität
+## 🛠️ Development & releases
 
-Zielclient: **WoW Classic Era 1.15.9**, Interface **11509**.
-Die Raid-Anordnung benötigt Blizzards **Separate Groups**-Layout und die
-entsprechenden Layout-Funktionen des Clients. Das Addon ergänzt Blizzard-Frames;
-komplette Unitframe-Ersetzungen können andere Frames verwenden.
+The release pipeline runs **tests → ZIP with SHA256 checksum → GitHub release →
+CurseForge upload**, using the configured project ID and upload token.
 
-Das ursprüngliche Gabba-Modul wird bereits im Spiel verwendet. Die ausgelagerte
-Version samt Einstellungsfenster, Minimap-Button und automatischer Übergabe ist
-für den eigenständigen Spieltest vorbereitet. Retail und andere Classic-Zweige
-sind derzeit nicht als unterstützt ausgewiesen.
+- **CI:** Lua checks, regression tests, and reproducible packaging on pushes and pull requests.
+- **Release:** A version tag such as `v1.0.0` publishes the ZIP, checksum, and changelog.
+- **CurseForge check:** A manually triggered access check without uploading a file.
+- **Dependabot:** Monthly checks for updates to GitHub Actions.
 
-## 🛠️ Entwicklung & Releases
-
-Die Pipeline folgt GabbaSounds: **Tests → ZIP mit SHA256 → GitHub-Release →
-CurseForge-Upload**, sobald Projekt-ID und Upload-Token hinterlegt sind.
-
-- **CI:** Lua-Prüfungen, Regressionstests und reproduzierbarer Paketbau bei Push und Pull Request.
-- **Release:** Ein Tag wie `v1.0.0` veröffentlicht ZIP, Prüfsumme und Changelog.
-- **CurseForge-Check:** Manuell ausführbarer Zugangstest ohne Datei-Upload.
-- **Dependabot:** Monatliche Prüfung der verwendeten GitHub Actions auf Updates.
-
-| Dokument | Inhalt |
+| Document | Contents |
 | --- | --- |
-| [Releases vorbereiten](RELEASING.md) | Lokale Prüfungen, Versionen, Tags, Token und Upload |
-| [Changelog](CHANGELOG.md) | Änderungen am Addon |
-| [CurseForge-Projekt](curseforge/PROJECT.md) | Projekt-ID, Upload-Daten und Screenshot-Ideen |
-| [CurseForge-Beschreibung](curseforge/DESCRIPTION.md) | Englischer Text für die Projektseite |
+| [Release guide](RELEASING.md) | Local checks, versions, tags, tokens, and uploads |
+| [Changelog](CHANGELOG.md) | Addon changes |
+| [CurseForge project](curseforge/PROJECT.md) | Project ID, upload details, and screenshot suggestions |
+| [CurseForge description](curseforge/DESCRIPTION.md) | Public project description |
 
 ## 💬 Feedback
 
-Fehlt dir eine Einstellung oder sitzt eine Anzeige nicht richtig?
-[Erstelle ein Issue](https://github.com/Gabbajoe/GabbaUnitFrames/issues) mit deiner
-WoW-Version, Addon-Version und möglichst einem Screenshot oder Lua-Fehler.
+Missing a setting or seeing a misplaced label?
+[Open an issue](https://github.com/Gabbajoe/GabbaUnitFrames/issues) with your WoW
+version, addon version, and a screenshot or Lua error when possible.
