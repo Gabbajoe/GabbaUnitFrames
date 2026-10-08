@@ -3,7 +3,7 @@
 ## Validate and build
 
 ```sh
-LUAC=luac5.1 bash tests/run_tests.sh
+LUA=lua5.1 LUAC=luac5.1 bash tests/run_tests.sh
 python3 -m unittest discover -s tests -p 'test_*.py' -v
 python3 tools/build_package.py --tag v1.0.0
 ```
@@ -40,6 +40,16 @@ CurseForge project **1734116** was created by the author. Configure:
 
 - Repository variable `CURSEFORGE_PROJECT_ID`: `1734116`.
 - Actions secret `CURSEFORGE_API_TOKEN`: an author upload token.
+
+Create the token at [CurseForge author API tokens](https://authors.curseforge.com/#/settings/api-tokens).
+In the GitHub repository, open **Settings → Secrets and variables → Actions**:
+add the token under **Secrets**, and the project ID under **Variables**.
+Then run **Actions → Check CurseForge access → Run workflow** to verify token
+access and the client-version lookup without uploading a file.
+
+The CI and Release workflows share `.github/actions/check/action.yml`.
+Dependabot checks pinned GitHub Actions for updates monthly. The public GitHub
+repository has not yet been created; these workflows are prepared locally.
 
 Never commit tokens or paste them into documentation. The upload uses the
 author API, resolves the exact Classic Era game version from the TOC, and fails
