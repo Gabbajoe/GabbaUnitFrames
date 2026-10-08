@@ -14,6 +14,7 @@ ns.defaults = {
     playerTargetFontSize = 11,
     hostileExactHealth = true,
     targetOfTargetPercent = true,
+    minimapAngle = 220,
 }
 
 local function ApplyDefaults(target, defaults)
@@ -31,6 +32,7 @@ function ns.Notify()
     if ns.RefreshRaid then ns.RefreshRaid() end
     if ns.RefreshTargets then ns.RefreshTargets() end
     if ns.RefreshOptions then ns.RefreshOptions() end
+    if ns.RefreshMinimap then ns.RefreshMinimap() end
 end
 
 local events = CreateFrame("Frame")

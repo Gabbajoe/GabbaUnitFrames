@@ -28,6 +28,7 @@ runs:
     - name: Test
       shell: bash
       env:
+        LUA: lua5.1
         LUAC: luac5.1
       run: |
         bash tests/run_tests.sh

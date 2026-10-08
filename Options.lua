@@ -41,7 +41,8 @@ end
 
 local function Build()
     frame = CreateFrame("Frame", "GabbaUnitFramesOptions", UIParent, "BasicFrameTemplateWithInset")
-    frame:SetSize(500, 600); frame:SetPoint("CENTER"); frame:SetClampedToScreen(true)
+    frame:SetSize(560, 650); frame:SetPoint("CENTER"); frame:SetClampedToScreen(true)
+    UISpecialFrames[#UISpecialFrames + 1] = "GabbaUnitFramesOptions"
     frame:SetMovable(true); frame:EnableMouse(true); frame:RegisterForDrag("LeftButton")
     frame:SetScript("OnDragStart", frame.StartMoving); frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
     local title = frame.TitleText or _G[frame:GetName() .. "TitleText"]
@@ -56,7 +57,8 @@ local function Build()
 
     Heading("Party members")
     controls.partyHealth = Checkbox(frame, "Show health percentage and value", 24, y, "partyHealth")
-    controls.partyPower = Checkbox(frame, "Show mana / power percentage and value", 250, y, "partyPower"); y = y - 34
+    y = y - 28
+    controls.partyPower = Checkbox(frame, "Show mana / power percentage and value", 24, y, "partyPower"); y = y - 34
 
     Heading("Party pets")
     controls.showPartyPets = Checkbox(frame, "Show party pet frames", 24, y, "showPartyPets"); y = y - 32
@@ -79,7 +81,8 @@ local function Build()
 
     Heading("Player and target labels")
     controls.hostileExactHealth = Checkbox(frame, "Show exact hostile target health", 24, y, "hostileExactHealth")
-    controls.targetOfTargetPercent = Checkbox(frame, "Show target-of-target health %", 250, y, "targetOfTargetPercent"); y = y - 48
+    y = y - 28
+    controls.targetOfTargetPercent = Checkbox(frame, "Show target-of-target health %", 24, y, "targetOfTargetPercent"); y = y - 48
     controls.playerTargetFontSize = Slider(frame, "GabbaUnitFramesLabelSize", "Label size", 34, y, 8, 16, 1,
         "playerTargetFontSize", function(v) return v .. " px" end)
 
@@ -102,6 +105,7 @@ function ns.RefreshOptions()
 end
 
 function ns.ToggleOptions()
+    if not ns.db then return end
     if not frame then Build() end
     if frame:IsShown() then frame:Hide() else ns.RefreshOptions(); frame:Show() end
 end

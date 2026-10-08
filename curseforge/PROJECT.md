@@ -1,6 +1,7 @@
 # CurseForge project setup
 
-Prepared for a new project; no project ID or moderation approval is recorded yet.
+CurseForge project created by the author: **1734116** (2026-10-08).
+The public project URL and moderation approval have not been confirmed yet.
 
 | Field | Value |
 | --- | --- |
@@ -14,25 +15,25 @@ Prepared for a new project; no project ID or moderation approval is recorded yet
 | Issues | https://github.com/Gabbajoe/GabbaUnitFrames/issues |
 | Comments | Enabled |
 | Unlisted | Disabled |
-| File | `../dist/GabbaUnitFrames-1.0.0-dev.1.zip` |
-| Display name | GabbaUnitFrames 1.0.0-dev.1 |
-| Release type | Alpha |
+| File | `../dist/GabbaUnitFrames-1.0.0.zip` |
+| Display name | GabbaUnitFrames 1.0.0 |
+| Release type | Release |
 | Client | Classic Era, 1.15.9 (interface 11509) |
-| Changelog | `CHANGELOG-1.0.0-dev.1.md` |
+| Changelog | `CHANGELOG-1.0.0.md` |
 | Dependencies | None |
 
 No source license has been selected. Choose the license deliberately in the
 dashboard; All Rights Reserved is an option if you want to retain reuse rights.
 No open-source license has been applied by this preparation.
 
-Create the project at https://authors.curseforge.com/#/projects/create/choose-game.
-After creation, record its confirmed ID and URL here, add `## X-Curse-Project-ID:`
-with that ID to the TOC, and configure the repository variable and secret in
-`RELEASING.md`. Do not reuse a different addon's project ID.
+The TOC records `## X-Curse-Project-ID: 1734116`. Configure the repository
+variable `CURSEFORGE_PROJECT_ID` as `1734116` and the upload secret described in
+`RELEASING.md` once the GitHub repository is published. No token is stored here.
 
 The upload submits the file for moderation; it does not imply approval.
-CurseForge requires at least one Release file for normal app distribution;
-promote to a stable version after in-game validation.
+Version 1.0.0 is prepared as Release. The original Gabba module has been used
+in-game; test the standalone settings, minimap icon and Gabba coexistence changes
+before uploading this package.
 
 ## Suggested screenshots
 

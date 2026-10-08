@@ -35,6 +35,7 @@ class ReleaseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             for name in RUNTIME:
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, root / name)
             with (root / 'GabbaUnitFrames.toc').open('a') as toc:
                 toc.write('\nNewRuntime.lua\n')

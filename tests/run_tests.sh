@@ -14,3 +14,6 @@ fi
 rg -q 'InCombatLockdown' "$addon_dir/PartyFrames.lua"
 rg -q 'InCombatLockdown' "$addon_dir/RaidLayout.lua"
 echo "GabbaUnitFrames static tests passed."
+cd "$addon_dir"
+"${LUA:-lua}" tests/raid_layout_test.lua
+"${LUA:-lua}" tests/ui_test.lua

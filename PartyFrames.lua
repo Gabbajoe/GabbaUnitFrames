@@ -19,13 +19,16 @@ local function Frames()
     return result
 end
 
-local function NewValuePair(parent, bar, size)
+local function NewValuePair(parent, bar, size, below, inset)
+    inset = inset or 2
     local left = parent:CreateFontString(nil, "OVERLAY", "TextStatusBarText")
     left:SetFont(STANDARD_TEXT_FONT, size, "OUTLINE")
-    left:SetPoint("LEFT", bar, "LEFT", 2, 0)
+    left:SetPoint(below and "TOPLEFT" or "LEFT", bar, below and "BOTTOMLEFT" or "LEFT", inset, below and -1 or 0)
+    left:SetJustifyH("LEFT")
     local right = parent:CreateFontString(nil, "OVERLAY", "TextStatusBarText")
     right:SetFont(STANDARD_TEXT_FONT, size, "OUTLINE")
-    right:SetPoint("RIGHT", bar, "RIGHT", -2, 0)
+    right:SetPoint(below and "TOPRIGHT" or "RIGHT", bar, below and "BOTTOMRIGHT" or "RIGHT", -inset, below and -1 or 0)
+    right:SetJustifyH("RIGHT")
     return left, right
 end
 
@@ -35,11 +38,16 @@ local function MemberOverlay(member)
     local frame = CreateFrame("Frame", nil, member)
     frame:SetAllPoints(member); frame:SetFrameLevel(member:GetFrameLevel() + 20); frame:EnableMouse(false)
     local health = member.HealthBar or member.healthBar or member
-    local power = member.ManaBar or member.PowerBar or member.manaBar or member.powerBar or health
+    local power = member.ManaBar or member.PowerBar or member.manaBar or member.powerBar
     frame.health, frame.healthValue = NewValuePair(frame, health, 9)
-    frame.power, frame.powerValue = NewValuePair(frame, power, 9)
+    frame.power, frame.powerValue = NewValuePair(frame, power or health, 9, not power)
     memberOverlays[member] = frame
     return frame
+end
+
+local function RaisePet(frame, pet, member)
+    frame:SetFrameStrata("HIGH")
+    frame:SetFrameLevel(math.max(member:GetFrameLevel(), pet:GetFrameLevel()) + 20)
 end
 
 local function PetOverlay(pet, member)
@@ -48,12 +56,22 @@ local function PetOverlay(pet, member)
     local frame = CreateFrame("Frame", nil, member)
     frame:SetAllPoints(member); frame:SetFrameStrata("HIGH"); frame:SetFrameLevel(member:GetFrameLevel() + 20); frame:EnableMouse(false)
     local health = pet.HealthBar or pet.healthBar or pet
-    local power = pet.ManaBar or pet.PowerBar or pet.manaBar or pet.powerBar or health
+    local power = pet.ManaBar or pet.PowerBar or pet.manaBar or pet.powerBar
     frame.name = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     frame.name:SetFont(STANDARD_TEXT_FONT, 8, "OUTLINE"); frame.name:SetPoint("BOTTOMLEFT", health, "TOPLEFT", 0, 3)
-    frame.health, frame.healthValue = NewValuePair(frame, health, 8)
-    frame.power, frame.powerValue = NewValuePair(frame, power, 8)
+    frame.name:SetJustifyH("LEFT")
+    frame.health, frame.healthValue = NewValuePair(frame, health, 8, false, 1)
+    frame.power, frame.powerValue = NewValuePair(frame, power or health, 8, not power, 1)
     petOverlays[pet] = frame
+    RaisePet(frame, pet, member)
+    if pet.HookScript then
+        local function RaiseAfterUpdate()
+            C_Timer.After(0, function() RaisePet(frame, pet, member) end)
+        end
+        pet:HookScript("OnMouseDown", RaiseAfterUpdate)
+        pet:HookScript("OnMouseUp", RaiseAfterUpdate)
+        pet:HookScript("OnShow", RaiseAfterUpdate)
+    end
     return frame
 end
 
@@ -80,7 +98,7 @@ local function UpdateValues()
         local pet = PetOverlay(entry.pet, entry.member)
         local petExists = UnitExists(petUnit)
         if pet then
-            pet:SetFrameStrata("HIGH"); pet:SetFrameLevel(math.max(entry.member:GetFrameLevel(), entry.pet:GetFrameLevel()) + 20)
+            RaisePet(pet, entry.pet, entry.member)
             pet.name:SetShown(petExists and ns.db.petName)
             pet.health:SetShown(petExists and ns.db.petHealth); pet.healthValue:SetShown(petExists and ns.db.petHealth)
             pet.power:SetShown(petExists and ns.db.petPower); pet.powerValue:SetShown(petExists and ns.db.petPower)
@@ -116,8 +134,10 @@ end
 ns.RefreshParty = ApplyLayout
 local events = CreateFrame("Frame")
 for _, event in ipairs({ "PLAYER_ENTERING_WORLD", "PLAYER_REGEN_ENABLED", "GROUP_ROSTER_UPDATE", "UNIT_PET", "UNIT_HEALTH", "UNIT_MAXHEALTH", "UNIT_POWER_UPDATE", "UNIT_MAXPOWER", "UNIT_NAME_UPDATE", "CVAR_UPDATE" }) do events:RegisterEvent(event) end
-events:SetScript("OnEvent", function(_, event)
+events:SetScript("OnEvent", function(_, event, arg1)
     if event == "PLAYER_REGEN_ENABLED" and pendingLayout then ApplyLayout()
-    elseif event == "PLAYER_ENTERING_WORLD" or event == "GROUP_ROSTER_UPDATE" or event == "UNIT_PET" or event == "CVAR_UPDATE" then C_Timer.After(0, ApplyLayout)
+    elseif event == "PLAYER_ENTERING_WORLD" or event == "GROUP_ROSTER_UPDATE" or event == "UNIT_PET" then C_Timer.After(0, ApplyLayout)
+    elseif event == "CVAR_UPDATE" then
+        if type(arg1) == "string" and arg1:lower() == "showpartypets" then C_Timer.After(0, ApplyLayout) end
     else UpdateValues() end
 end)

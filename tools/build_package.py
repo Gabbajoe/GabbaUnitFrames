@@ -9,7 +9,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = (
     'GabbaUnitFrames.toc', 'Core.lua', 'PartyFrames.lua', 'RaidLayout.lua',
-    'TargetLabels.lua', 'Options.lua', 'README.md', 'CHANGELOG.md',
+    'TargetLabels.lua', 'Options.lua', 'Minimap.lua', 'Assets/Icon.tga', 'README.md', 'CHANGELOG.md',
 )
 
 

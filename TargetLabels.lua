@@ -1,83 +1,245 @@
-local _, ns = ...
+-- Exact target health text for Classic Era's portrait-style TargetFrame.
+-- The text belongs to Gabba and is parented to UIParent; it is only anchored
+-- visually to Blizzard's health bar. We never add fields, scripts or
+-- attributes to the protected target button itself.
 
-local hostileOverlay = CreateFrame("Frame", nil, UIParent)
-local hostileText = hostileOverlay:CreateFontString(nil, "OVERLAY")
-hostileText:SetPoint("CENTER"); hostileText:SetTextColor(1, 1, 1); hostileOverlay:Hide()
-local totOverlay = CreateFrame("Frame", nil, UIParent)
-local totText = totOverlay:CreateFontString(nil, "OVERLAY")
-totText:SetPoint("CENTER"); totText:SetTextColor(1, 1, 1); totOverlay:Hide()
-local hostileAnchor, totAnchor
+local ADDON_NAME, ns = ...
 
-local function Font(region, size)
-    if not region or not region.GetFont then return end
-    local face, _, flags = region:GetFont()
-    if face then region:SetFont(face, size, flags or "OUTLINE") end
+local overlay = CreateFrame("Frame", nil, UIParent)
+overlay:SetSize(1, 1)
+overlay:Hide()
+
+local text = overlay:CreateFontString(nil, "OVERLAY")
+text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
+text:SetTextColor(1, 1, 1)
+text:SetJustifyH("RIGHT")
+
+local anchoredTo
+
+local targetOfTargetOverlay = CreateFrame("Frame", nil, UIParent)
+targetOfTargetOverlay:SetSize(1, 1)
+targetOfTargetOverlay:Hide()
+
+local targetOfTargetText = targetOfTargetOverlay:CreateFontString(nil, "OVERLAY")
+targetOfTargetText:SetFont(STANDARD_TEXT_FONT, 9, "OUTLINE")
+targetOfTargetText:SetTextColor(1, 1, 1)
+targetOfTargetText:SetJustifyH("CENTER")
+
+local targetOfTargetAnchoredTo
+
+local function StatusFontSize()
+    return tonumber(ns.db and ns.db.playerTargetFontSize) or 11
 end
 
-local function ResizeFrame(frame, seen, size)
-    if not frame or seen[frame] then return end
-    seen[frame] = true
+local function ResizeFontString(region)
+    if not region or not region.GetFont or not region.SetFont then return end
+    local font, _, flags = region:GetFont()
+    if font then region:SetFont(font, StatusFontSize(), flags or "OUTLINE") end
+end
+
+local function ResizeStatusBarText(frame, visited)
+    if not frame or visited[frame] then return end
+    visited[frame] = true
+
     if frame.GetObjectType and frame:GetObjectType() == "StatusBar" and frame.GetRegions then
         for _, region in ipairs({ frame:GetRegions() }) do
-            if region.GetObjectType and region:GetObjectType() == "FontString" then Font(region, size) end
+            if region.GetObjectType
+                and region:GetObjectType() == "FontString"
+                and region.GetFont
+                and region.SetFont
+            then
+                ResizeFontString(region)
+            end
         end
     end
-    if frame.GetChildren then for _, child in ipairs({ frame:GetChildren() }) do ResizeFrame(child, seen, size) end end
+
+    if frame.GetChildren then
+        for _, child in ipairs({ frame:GetChildren() }) do
+            ResizeStatusBarText(child, visited)
+        end
+    end
 end
 
-local function TargetBar()
-    return TargetFrameHealthBar or (TargetFrame and (TargetFrame.healthbar or TargetFrame.HealthBar))
+local function ResizePlayerAndTargetText()
+    local visited = {}
+    ResizeStatusBarText(PlayerFrame, visited)
+    ResizeStatusBarText(TargetFrame, visited)
+
+    -- Classic's portrait frames parent several status texts to their texture
+    -- frame instead of the StatusBar itself, so GetRegions() above cannot see
+    -- them. Cover both table fields and the stable global names used by the
+    -- Blizzard unit-frame code and compatible addons.
+    for _, region in pairs({
+        PlayerFrameHealthBar and PlayerFrameHealthBar.TextString,
+        PlayerFrameHealthBar and PlayerFrameHealthBar.LeftText,
+        PlayerFrameHealthBar and PlayerFrameHealthBar.RightText,
+        PlayerFrameManaBar and PlayerFrameManaBar.TextString,
+        PlayerFrameManaBar and PlayerFrameManaBar.LeftText,
+        PlayerFrameManaBar and PlayerFrameManaBar.RightText,
+        PlayerFrameTextureFrame and PlayerFrameTextureFrame.HealthBarText,
+        PlayerFrameTextureFrame and PlayerFrameTextureFrame.ManaBarText,
+        PlayerFrameHealthBarText,
+        PlayerFrameHealthBarTextLeft,
+        PlayerFrameHealthBarTextRight,
+        PlayerFrameManaBarText,
+        PlayerFrameManaBarTextLeft,
+        PlayerFrameManaBarTextRight,
+        TargetFrameHealthBar and TargetFrameHealthBar.TextString,
+        TargetFrameHealthBar and TargetFrameHealthBar.LeftText,
+        TargetFrameHealthBar and TargetFrameHealthBar.RightText,
+        TargetFrameManaBar and TargetFrameManaBar.TextString,
+        TargetFrameManaBar and TargetFrameManaBar.LeftText,
+        TargetFrameManaBar and TargetFrameManaBar.RightText,
+        TargetFrameTextureFrame and TargetFrameTextureFrame.HealthBarText,
+        TargetFrameTextureFrame and TargetFrameTextureFrame.ManaBarText,
+        TargetFrameHealthBarText,
+        TargetFrameHealthBarTextLeft,
+        TargetFrameHealthBarTextRight,
+        TargetFrameManaBarText,
+        TargetFrameManaBarTextLeft,
+        TargetFrameManaBarTextRight,
+    }) do
+        ResizeFontString(region)
+    end
 end
 
-local function ToTBar()
-    return TargetFrameToTHealthBar or (TargetFrameToT and (TargetFrameToT.healthbar or TargetFrameToT.HealthBar))
+local function SetNativeTargetRightTextShown(shown)
+    local alpha = shown and 1 or 0
+    for _, region in pairs({
+        TargetFrameHealthBar and TargetFrameHealthBar.RightText,
+        TargetFrameHealthBarTextRight,
+    }) do
+        if region and region.SetAlpha then region:SetAlpha(alpha) end
+    end
 end
 
-local function Layer(overlay, owner, bar)
-    overlay:SetFrameStrata("MEDIUM")
-    overlay:SetFrameLevel(math.max(owner and owner:GetFrameLevel() or 1, bar:GetFrameLevel() or 1) + 20)
-    local uiScale, barScale = UIParent:GetEffectiveScale() or 1, bar:GetEffectiveScale() or 1
+local function GetTargetHealthBar()
+    if TargetFrameHealthBar then return TargetFrameHealthBar end
+    if not TargetFrame then return nil end
+    return TargetFrame.healthbar
+        or TargetFrame.HealthBar
+        or (TargetFrame.TargetFrameContent
+            and TargetFrame.TargetFrameContent.TargetFrameContentMain
+            and TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar)
+end
+
+local function GetTargetOfTargetHealthBar()
+    if TargetFrameToTHealthBar then return TargetFrameToTHealthBar end
+    if not TargetFrameToT then return nil end
+    return TargetFrameToT.healthbar or TargetFrameToT.HealthBar
+end
+
+local function SyncOverlayLayer(frame, owner, healthBar)
+    -- These overlays deliberately live on UIParent to avoid modifying
+    -- protected unit frames. Classic's portrait frames render some bar
+    -- textures above the strata reported by the StatusBar itself, so use a
+    -- stable middle layer: above unit-frame artwork, below bags and dialogs.
+    frame:SetFrameStrata("MEDIUM")
+    local ownerLevel = owner and owner.GetFrameLevel and owner:GetFrameLevel() or 1
+    local barLevel = healthBar:GetFrameLevel() or 1
+    frame:SetFrameLevel(math.max(ownerLevel, barLevel) + 20)
+end
+
+local function UpdateTargetOfTarget()
+    if not ns.db.targetOfTargetPercent then
+        targetOfTargetOverlay:Hide()
+        return
+    end
+
+    local healthBar = GetTargetOfTargetHealthBar()
+    if not healthBar or not UnitExists("targettarget") then
+        targetOfTargetOverlay:Hide()
+        return
+    end
+
+    if targetOfTargetAnchoredTo ~= healthBar then
+        targetOfTargetAnchoredTo = healthBar
+        targetOfTargetOverlay:ClearAllPoints()
+        targetOfTargetOverlay:SetPoint("CENTER", healthBar, "CENTER", 0, 0)
+        targetOfTargetText:ClearAllPoints()
+        targetOfTargetText:SetPoint("CENTER", targetOfTargetOverlay, "CENTER", 0, 0)
+    end
+    SyncOverlayLayer(targetOfTargetOverlay, TargetFrameToT, healthBar)
+
+    local uiScale = UIParent:GetEffectiveScale() or 1
+    local barScale = healthBar:GetEffectiveScale() or uiScale
+    targetOfTargetOverlay:SetScale(uiScale > 0 and barScale / uiScale or 1)
+
+    local health = UnitHealth("targettarget") or 0
+    local maximum = UnitHealthMax("targettarget") or 0
+    if maximum <= 0 then
+        targetOfTargetOverlay:Hide()
+        return
+    end
+
+    targetOfTargetText:SetFont(STANDARD_TEXT_FONT, math.max(8, StatusFontSize() - 2), "OUTLINE")
+    targetOfTargetText:SetText(math.floor(health / maximum * 100 + 0.5) .. "%")
+    targetOfTargetOverlay:Show()
+end
+
+local function Anchor()
+    local healthBar = GetTargetHealthBar()
+    if not healthBar then return false end
+    if anchoredTo ~= healthBar then
+        anchoredTo = healthBar
+        overlay:ClearAllPoints()
+        overlay:SetPoint("RIGHT", healthBar, "RIGHT", -2, 0)
+        text:ClearAllPoints()
+        text:SetPoint("RIGHT", overlay, "RIGHT", 0, 0)
+    end
+    SyncOverlayLayer(overlay, TargetFrame, healthBar)
+
+    -- The addon overlay is parented to UIParent for taint safety, so it does
+    -- not naturally inherit a moved/scaled TargetFrame's effective scale.
+    -- Mirror that scale explicitly and copy the native left percentage's font
+    -- face/flags so the added hostile-health value is visually identical.
+    local uiScale = UIParent:GetEffectiveScale() or 1
+    local barScale = healthBar:GetEffectiveScale() or uiScale
     overlay:SetScale(uiScale > 0 and barScale / uiScale or 1)
+
+    text:SetFont(STANDARD_TEXT_FONT, StatusFontSize(), "OUTLINE")
+    local nativeLeft = healthBar.LeftText or TargetFrameHealthBarTextLeft
+    if nativeLeft and nativeLeft.GetFont then
+        local font, _, flags = nativeLeft:GetFont()
+        if font then text:SetFont(font, StatusFontSize(), flags or "OUTLINE") end
+    end
+    return true
 end
 
 local function Update()
     if not ns.db then return end
-    local size = tonumber(ns.db.playerTargetFontSize) or 11
-    local seen = {}; ResizeFrame(PlayerFrame, seen, size); ResizeFrame(TargetFrame, seen, size)
-    -- Classic parents some native status text to texture frames rather than to
-    -- the StatusBars themselves, so the recursive pass cannot discover it.
-    for _, region in pairs({
-        PlayerFrameHealthBarText, PlayerFrameHealthBarTextLeft, PlayerFrameHealthBarTextRight,
-        PlayerFrameManaBarText, PlayerFrameManaBarTextLeft, PlayerFrameManaBarTextRight,
-        TargetFrameHealthBarText, TargetFrameHealthBarTextLeft, TargetFrameHealthBarTextRight,
-        TargetFrameManaBarText, TargetFrameManaBarTextLeft, TargetFrameManaBarTextRight,
-        PlayerFrameTextureFrame and PlayerFrameTextureFrame.HealthBarText,
-        PlayerFrameTextureFrame and PlayerFrameTextureFrame.ManaBarText,
-        TargetFrameTextureFrame and TargetFrameTextureFrame.HealthBarText,
-        TargetFrameTextureFrame and TargetFrameTextureFrame.ManaBarText,
-    }) do Font(region, size) end
-
-    local totBar = ToTBar()
-    if ns.db.targetOfTargetPercent and totBar and UnitExists("targettarget") then
-        if totAnchor ~= totBar then totAnchor = totBar; totOverlay:ClearAllPoints(); totOverlay:SetPoint("CENTER", totBar) end
-        Layer(totOverlay, TargetFrameToT, totBar); totText:SetFont(STANDARD_TEXT_FONT, math.max(8, size - 2), "OUTLINE")
-        local hp, maximum = UnitHealth("targettarget") or 0, UnitHealthMax("targettarget") or 0
-        if maximum > 0 then totText:SetText(math.floor(hp / maximum * 100 + 0.5) .. "%"); totOverlay:Show() else totOverlay:Hide() end
-    else totOverlay:Hide() end
-
-    local bar = TargetBar()
+    ResizePlayerAndTargetText()
+    UpdateTargetOfTarget()
+    -- Blizzard already displays exact health for friendly targets. Classic Era
+    -- leaves only the right-hand value empty for hostile targets, while still
+    -- exposing the real UnitHealth value. Fill precisely that missing slot so
+    -- the native percentage on the left remains unobstructed.
     local hostile = ns.db.hostileExactHealth and UnitExists("target") and UnitCanAttack("player", "target")
-    local nativeRight = bar and (bar.RightText or TargetFrameHealthBarTextRight)
-    if nativeRight and nativeRight.SetAlpha then nativeRight:SetAlpha(hostile and 0 or 1) end
-    if hostile and bar then
-        if hostileAnchor ~= bar then hostileAnchor = bar; hostileOverlay:ClearAllPoints(); hostileOverlay:SetPoint("RIGHT", bar, "RIGHT", -2, 0) end
-        Layer(hostileOverlay, TargetFrame, bar); Font(hostileText, size)
-        local hp, maximum = UnitHealth("target") or 0, UnitHealthMax("target") or 0
-        if maximum > 0 then hostileText:SetText(hp); hostileOverlay:Show() else hostileOverlay:Hide() end
-    else hostileOverlay:Hide() end
+    SetNativeTargetRightTextShown(not hostile)
+    if not hostile
+        or not Anchor()
+    then
+        overlay:Hide()
+        return
+    end
+
+    local health = UnitHealth("target") or 0
+    local maximum = UnitHealthMax("target") or 0
+    if maximum <= 0 then
+        overlay:Hide()
+        return
+    end
+
+    text:SetText(tostring(health))
+    overlay:Show()
 end
 
 ns.RefreshTargets = Update
+
 local events = CreateFrame("Frame")
-for _, event in ipairs({ "PLAYER_ENTERING_WORLD", "PLAYER_TARGET_CHANGED", "UNIT_HEALTH", "UNIT_MAXHEALTH", "UNIT_TARGET" }) do events:RegisterEvent(event) end
+events:RegisterEvent("PLAYER_ENTERING_WORLD")
+events:RegisterEvent("PLAYER_TARGET_CHANGED")
+events:RegisterUnitEvent("UNIT_HEALTH", "target", "targettarget")
+events:RegisterUnitEvent("UNIT_MAXHEALTH", "target", "targettarget")
+events:RegisterUnitEvent("UNIT_TARGET", "target")
 events:SetScript("OnEvent", Update)

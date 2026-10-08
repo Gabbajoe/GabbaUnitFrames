@@ -2,7 +2,9 @@
 ## Title: Gabba Unit Frames
 ## Notes: Compact party, pet, raid-layout and target health enhancements
 ## Author: Nils
-## Version: 1.0.0-dev.1
+## Version: 1.0.0
+## IconTexture: Interface\AddOns\GabbaUnitFrames\Assets\Icon.tga
+## X-Curse-Project-ID: 1734116
 ## SavedVariablesPerCharacter: GabbaUnitFramesDB
 
 Core.lua
@@ -10,3 +12,4 @@ PartyFrames.lua
 RaidLayout.lua
 TargetLabels.lua
 Options.lua
+Minimap.lua
